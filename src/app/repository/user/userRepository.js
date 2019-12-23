@@ -18,5 +18,11 @@ module.exports = {
         UserSchema.findOneAndUpdate({_id: userId}, {token: token}, {new: true}, (err, res) => {
             err ? callback(err, null) : callback(null, res)
         })
+    },
+
+    logout: function(token, callback){
+        UserSchema.findOneAndUpdate({token: token}, {$unset: {token: 1}}, {new: true}, (err, res) => {
+            err ? callback(err, null) : callback(null, res)
+        })
     }
 }

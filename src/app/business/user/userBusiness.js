@@ -45,6 +45,12 @@ module.exports = {
         })
     },
 
+    logout : function(token, callback){
+        userRepository.logout(token, (err, res) => {
+            err ? callback(err, null) : callback(null, res)
+        });
+    },
+
 
     saltHashPassword: function (password) {
         const salt = this.getSalt();
