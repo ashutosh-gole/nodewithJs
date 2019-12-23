@@ -5,6 +5,6 @@ const router = require("express").Router();
 router.get('/test', (req, res) => {
     res.json("Sucess");
 })
-router.post('/create', UserController.create);
+router.post('/signup', UserController.signup);
 
 module.exports = router;
