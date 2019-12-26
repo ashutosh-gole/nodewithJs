@@ -6,5 +6,10 @@ module.exports = {
         userTypeBusiness.create(userType, (err, res) => {
             err ? response.send(err) : response.send(res)
         });
+    },
+    getAllUserTypes: function (request, response) {
+        userTypeBusiness.getAllUserTypes((err, res) => {
+            err ? response.send(err) : response.send(res)
+        });
     }
 }

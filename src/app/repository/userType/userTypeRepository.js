@@ -5,5 +5,10 @@ module.exports = {
         UserTypeSchema.create(userType, (err, res) => {
             err ? callback(err, null) : callback(null, res)
         });
-    }
+    },
+    getAllUserTypes:function (callback) {
+        UserTypeSchema.find({}, (err, res) => {
+            err ? callback(err, null) : callback(null, res)
+        });
+    },
 }

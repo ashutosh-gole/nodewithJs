@@ -5,5 +5,10 @@ module.exports = {
         userTypeRepository.create(userType, (err, res) => {
             err ? callback(err, null) : callback(null, res)
         });
-    }
+    },
+    getAllUserTypes: function (callback) {
+        userTypeRepository.getAllUserTypes((err, res) => {
+            err ? callback(err, null) : callback(null, res)
+        });
+    },
 }
