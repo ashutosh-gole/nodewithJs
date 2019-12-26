@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
+const Mongoose = require('mongoose');
 
-const userSchema = mongoose.Schema({
-    image: {
+const UserSchema = Mongoose.Schema({
+    profileUrl: {
         type: String
     },
     firstName: {
@@ -11,7 +11,9 @@ const userSchema = mongoose.Schema({
         type: String
     },
     username: {
-        type: String
+        type: String,
+        unique: true,
+        required: true
     },
     email: {
         type: String,
@@ -21,11 +23,9 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
     },
-    confirmPassword: {
-        type: String,
-    },
     type: {
-        type: String,
+        type: Mongoose.Types.ObjectId,
+        ref: 'UserType'
     },
     country: {
         type: String,
@@ -39,9 +39,9 @@ const userSchema = mongoose.Schema({
     age: {
         type: String,
     },
-    interestedIn: {
+    interestedIn: [{
         type: String,
-    },
+    }],
     educationLevel: {
         type: String,
     },
@@ -64,8 +64,11 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    verificationToken: {
+        type: String
+    }
 }, {
     timestamps: true
 });
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = Mongoose.model('User', UserSchema)

@@ -2,8 +2,8 @@ const async = require('async');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
-
 const userRepository = require('../../repository/user/userRepository');
+
 module.exports = {
     signup: function (user, callback) {
         console.log(this);
@@ -32,12 +32,12 @@ module.exports = {
                     const options = { expiresIn: '1d', issuer: 'nodewithjs' };
                     const secret = process.env.JWT_SECRET;
                     const token = jwt.sign(payload, secret, options);
-                    userRepository.updateUser(preRes._id,token, (err, res) => {
+                    userRepository.updateUser(preRes._id, token, (err, res) => {
                         err ? done(err, null) : null;
                         res ? done(null, res) : done('User not found', null)
                     })
                 } else {
-                   done('Incorrect Password', null)
+                    done('Incorrect Password', null)
                 }
             }
         ], (error, resp) => {
@@ -45,7 +45,7 @@ module.exports = {
         })
     },
 
-    logout : function(token, callback){
+    logout: function (token, callback) {
         userRepository.logout(token, (err, res) => {
             err ? callback(err, null) : callback(null, res)
         });

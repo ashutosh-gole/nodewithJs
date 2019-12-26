@@ -1,6 +1,4 @@
-
 const UserController = require("./../../../controller/user/userController");
-
 const router = require("express").Router();
 
 router.post('/signup', UserController.signup);
