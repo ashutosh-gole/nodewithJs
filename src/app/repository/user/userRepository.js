@@ -1,42 +1,19 @@
 const async = require('async');
 const crypto = require('crypto');
 const UserSchema = require('../../dataAccess/schemas/UserSchema');
-const utility = require('../../../config/middlewares/utility');
-const template = require('../../../config/middlewares/templates/userVerifyTemplate');
 
 module.exports = {
     signup: function (user, callback) {
-        console.log("user info===========================",user);
-        async.waterfall([
-            (done) => {
-                UserSchema.create(user, (err, res) => {
-                    err ? done(err, null) : done(null, res)
-                });
-            },
-            (prevRes, done) => {
-                const verificationToken = crypto.randomBytes(16).toString('hex');
-                UserSchema.findOneAndUpdate({ _id: prevRes._id }, { verificationToken: verificationToken }, { new: true }, (err, res) => {
-                    err ? done(err, null) : null;
-                    if (res) {
-                        const mailOptions = {
-                            from: process.env.EMAIL, // sender address
-                            to: prevRes.email, // list of receivers
-                            subject: 'Account Verification Request', // Subject line
-                            html: template.userVerifyTemplate(res)// plain text body
-                        };
+        UserSchema.create(user, (err, res) => {
+            err ? callback(err, null) : callback(null, res)
+        });
+    },
 
-                        utility.sendMail(mailOptions, (err, res) => {
-                            err ? done(err, null) : done(null, prevRes)
-                        });
-                    } else {
-                        done('Some issue on update', null)
-                    }
-                })
-
-            }
-        ], (err, resp) => {
-            err ? callback(err, null) : callback(null, resp)
-        })
+    verifyUserToken: function (user, callback) {
+        const verificationToken = crypto.randomBytes(16).toString('hex');
+        UserSchema.findOneAndUpdate({ _id: user._id }, { verificationToken: verificationToken }, { new: true }, (err, res) => {
+            err ? callback(err, null) : callback(null, res)
+        });
     },
 
     findByEmail: function (email, callback) {

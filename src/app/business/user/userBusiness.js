@@ -3,17 +3,42 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
 const userRepository = require('../../repository/user/userRepository');
+const utility = require('../../../config/middlewares/utility');
+const template = require('../../../config/middlewares/templates/userVerifyTemplate');
 
 module.exports = {
     signup: function (user, callback) {
-        console.log(this);
+        async.waterfall([
+            (done) => {
+                const encryptedValues = this.saltHashPassword(user.password);
+                user.password = encryptedValues.password;
+                user.salt = encryptedValues.salt;
+                userRepository.signup(user, (err, res) => {
+                    err ? done(err, null) : done(null, res)
+                });
+            },
+            (prevRes, done) => {
+                userRepository.verifyUserToken(prevRes, (err, res) => {
+                    err ? done(err, null) : null;
+                    if (res) {
+                        const mailOptions = {
+                            from: process.env.EMAIL, // sender address
+                            to: prevRes.email, // list of receivers
+                            subject: 'Account Verification Request', // Subject line
+                            html: template.userVerifyTemplate(res)// plain text body
+                        };
 
-        const encryptedValues = this.saltHashPassword(user.password);
-        user.password = encryptedValues.password;
-        user.salt = encryptedValues.salt;
-        userRepository.signup(user, (err, res) => {
-            err ? callback(err, null) : callback(null, res)
-        });
+                        utility.sendMail(mailOptions, (err, res) => {
+                            err ? done(err, null) : done(null, prevRes)
+                        });
+                    } else {
+                        done('Some issue on update', null)
+                    }
+                });
+            }
+        ], (err, resp) => {
+            err ? callback(err, null) : callback(null, resp)
+        })
     },
 
     login: function (email, password, callback) {
