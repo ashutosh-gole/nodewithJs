@@ -7,6 +7,7 @@ const utility = require('../../../config/middlewares/utility');
 const template = require('../../../config/middlewares/templates/userVerifyTemplate');
 
 module.exports = {
+
     signup: function (user, callback) {
         async.waterfall([
             (done) => {
@@ -75,12 +76,12 @@ module.exports = {
             err ? callback(err, null) : callback(null, res)
         });
     },
+
     userVerify: function (token, callback) {
         userRepository.userVerify(token, (err, res) => {
             err ? callback(err, null) : callback(null, res)
         });
     },
-
 
     saltHashPassword: function (password) {
         const salt = this.getSalt();
@@ -88,13 +89,10 @@ module.exports = {
     },
 
     getSalt: function () {
-        console.log(process.env.SALT_LENGTH);
-
         return crypto.randomBytes(Number(process.env.SALT_LENGTH)).toString('Hex');
     },
 
     hashPasswordWithSalt: function (password, salt) {
-
         let hashedPassword = crypto.createHmac('sha512', salt);
         hashedPassword.update(password);
         hashedPassword = hashedPassword.digest('Hex');

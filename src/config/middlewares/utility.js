@@ -9,9 +9,11 @@ const smtpTransport = nodemailer.createTransport({
 });
 
 module.exports = {
+
     'sendMail': function (mailOptions, callback) {
         smtpTransport.sendMail(mailOptions, (err, res) => {
             err ? callback(err, null) : callback(null, 'Mail Sent Successfully')
         });
     }
+
 }

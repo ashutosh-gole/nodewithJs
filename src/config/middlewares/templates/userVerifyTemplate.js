@@ -1,4 +1,5 @@
 module.exports = {
+
     'userVerifyTemplate': function (user) {
         const baseUrl = `http://localhost:5000/user/user-verify/${user.verificationToken}`;
 
@@ -82,4 +83,5 @@ module.exports = {
 
         return html;
     }
+
 }

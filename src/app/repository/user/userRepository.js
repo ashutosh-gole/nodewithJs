@@ -1,8 +1,10 @@
 const async = require('async');
 const crypto = require('crypto');
+
 const UserSchema = require('../../dataAccess/schemas/UserSchema');
 
 module.exports = {
+
     signup: function (user, callback) {
         UserSchema.create(user, (err, res) => {
             err ? callback(err, null) : callback(null, res)
@@ -17,7 +19,6 @@ module.exports = {
     },
 
     findByEmail: function (email, callback) {
-        console.log(email)
         UserSchema.findOne({ email: email }, (err, res) => {
             err ? callback(err, null) : callback(null, res)
         });
@@ -34,6 +35,7 @@ module.exports = {
             err ? callback(err, null) : callback(null, res)
         })
     },
+
     userVerify: function (verificationToken, callback) {
         UserSchema.findOne({ verificationToken: verificationToken }, (err, res) => {
             err ? callback(err, null) : null;
@@ -47,5 +49,6 @@ module.exports = {
                 callback(null, 'User Already Verified')
             }
         })
-    },
+    }
+
 }
