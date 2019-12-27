@@ -1,5 +1,5 @@
 const async = require('async');
-const baseUrl = "https://www.shenovi.com/shenovi/home";
+const crypto = require('crypto');
 const UserSchema = require('../../dataAccess/schemas/UserSchema');
 const utility = require('../../../config/middlewares/utility');
 
@@ -13,16 +13,25 @@ module.exports = {
                 });
             },
             (prevRes, done) => {
-                const mailOptions = {
-                    from: process.env.EMAIL, // sender address
-                    to: prevRes.email, // list of receivers
-                    subject: 'Account Verification Request', // Subject line
-                    html: this.userVerifyHtml(prevRes)// plain text body
-                };
+                const verificationToken = crypto.randomBytes(16).toString('hex');
+                UserSchema.findOneAndUpdate({ _id: prevRes._id }, { verificationToken: verificationToken }, { new: true }, (err, res) => {
+                    err ? done(err, null) : null;
+                    if (res) {
+                        const mailOptions = {
+                            from: process.env.EMAIL, // sender address
+                            to: prevRes.email, // list of receivers
+                            subject: 'Account Verification Request', // Subject line
+                            html: this.userVerifyHtml(res)// plain text body
+                        };
 
-                utility.sendMail(mailOptions, (err, res) => {
-                    err ? done(err, null) : done(null, prevRes)
-                });
+                        utility.sendMail(mailOptions, (err, res) => {
+                            err ? done(err, null) : done(null, prevRes)
+                        });
+                    } else {
+                        done('Some issue on update', null)
+                    }
+                })
+
             }
         ], (err, resp) => {
             err ? callback(err, null) : callback(null, resp)
@@ -32,6 +41,10 @@ module.exports = {
     },
 
     userVerifyHtml(user) {
+
+        const baseUrl = `http://localhost:5000/user/user-verify/${user.verificationToken}`;
+        // const link = `${baseUrl}/verify?id=${verificationToken}`
+
         const html = `<!DOCTYPE html>
         <html>
         <head>
@@ -130,5 +143,19 @@ module.exports = {
         UserSchema.findOneAndUpdate({ token: token }, { $unset: { token: 1 } }, { new: true }, (err, res) => {
             err ? callback(err, null) : callback(null, res)
         })
-    }
+    },
+    userVerify: function (verificationToken, callback) {
+        UserSchema.findOne({ verificationToken: verificationToken }, (err, res) => {
+            err ? callback(err, null) : null;
+            if (res) {
+                res.verificationToken = null;
+                res.isVerified = true;
+                res.save((error) => {
+                    error ? callback(err, null) : callback(null, 'User Verfied')
+                })
+            } else {
+                callback(null, 'User Already Verified')
+            }
+        })
+    },
 }

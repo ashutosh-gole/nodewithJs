@@ -50,6 +50,11 @@ module.exports = {
             err ? callback(err, null) : callback(null, res)
         });
     },
+    userVerify: function (token, callback) {
+        userRepository.userVerify(token, (err, res) => {
+            err ? callback(err, null) : callback(null, res)
+        });
+    },
 
 
     saltHashPassword: function (password) {

@@ -25,4 +25,11 @@ module.exports = {
             err ? response.send(err) : response.send(res)
         });
     },
+    userVerify: function(request, response){
+        const {verficationToken} = request.params;
+        userBusiness.userVerify(verficationToken, (err, res) => {
+            err ? response.send(err) : response.send(res)
+        });
+        
+    }
 }
