@@ -1,0 +1,173 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Yet Another Node.js Shenovi Application API",
+        "description": "Yet Another Node.js Shenovi Application API",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:5000",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "User",
+            "description": "API for users in the system"
+        },
+        {
+            "name": "UserType",
+            "description": "API for users type in the system"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/user-type/create": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create new user type",
+                "description": "Create new user type in system",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "User that we want to create",
+                        "schema": {
+                            "$ref": "#/definitions/UserType"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New user type is created",
+                        "schema": {
+                            "$ref": "#/definitions/UserType"
+                        }
+                    }
+                }
+            }
+        },
+        "/user-type/all-user-types": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all user types in system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/UserType"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "required": [
+                "username",
+                "email",
+                "_id"
+            ],
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "profileUrl": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "email": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "password": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "$ref": "#/definitions/UserType"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "introduction": {
+                    "type": "string"
+                },
+                "age": {
+                    "type": "string"
+                },
+                "interestedIn": {
+                    "type": "string"
+                },
+                "educationLevel": {
+                    "type": "string"
+                },
+                "majorIndustry": {
+                    "type": "string"
+                },
+                "profession": {
+                    "type": "string"
+                },
+                "yearsOfExperience": {
+                    "type": "string"
+                },
+                "salt": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "isVerified": {
+                    "type": "string"
+                },
+                "verificationToken": {
+                    "type": "string"
+                }
+            }
+        },
+        "UserType": {
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,5 +1,25 @@
 const Mongoose = require('mongoose');
 
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      User:
+ *        type: object
+ *        required:
+ *          - username
+ *          - email
+ *        properties:
+ *          name:
+ *            type: string
+ *          email:
+ *            type: string
+ *            format: email
+ *            description: Email for the user, needs to be unique.
+ *        example:
+ *           name: Alexander
+ *           email: fake@email.com
+ */
 const UserSchema = Mongoose.Schema({
     profileUrl: {
         type: String
