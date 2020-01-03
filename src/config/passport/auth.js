@@ -3,19 +3,19 @@ module.exports = {
     'googleAuth': {
         'clientID': process.env.GOOGLE_CLIENT_ID,
         'clientSecret': process.env.GOOGLE_CLIENT_SECRET,
-        'callbackURL': 'http://localhost:5000/auth/google/callback'
+        'callbackURL': process.env.GOOGLE_CALLBACK_URL
     },
 
     'facebookAuth': {
-        'clientID': 'your-secret-clientID-here',
-        'clientSecret': 'your-client-secret-here',
-        'callbackURL': 'http://localhost:5000/auth/facebook/callback'
+        'clientID': process.env.FACEBOOK_CLIENT_ID,
+        'clientSecret': process.env.FACEBOOK_CLIENT_SECRET,
+        'callbackURL': process.env.FACEBOOK_CALLBACK_URL
     },
 
     'twitterAuth': {
-        'clientID': 'your-consumer-key-here',
-        'clientSecret': 'your-client-secret-here',
-        'callbackURL': 'http://localhost:5000/auth/twitter/callback'
+        'clientID': process.env.TWITTER_CLIENT_ID,
+        'clientSecret': process.env.TWITTER_CLIENT_SECRET,
+        'callbackURL': process.env.TWITTER_CALLBACK_URL
     }
 
 };

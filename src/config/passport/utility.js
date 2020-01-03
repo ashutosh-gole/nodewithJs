@@ -28,7 +28,7 @@ module.exports = (passport) => {
         callbackURL: utility.googleAuth.callbackURL
     },
         (accessToken, refreshToken, profile, callback) => {
-             callback(null, {
+            callback(null, {
                 profile: profile,
                 token: accessToken
             });
