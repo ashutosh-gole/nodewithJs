@@ -24,6 +24,12 @@ module.exports = {
         StudentSchema.findOneAndUpdate({ id: id }, student, { new: true }, (err, res) => {
             err ? callback(err, null) : callback(null, res);
         })
+    },
+
+    deleteStudentById: function (id, callback) {
+        StudentSchema.findOneAndDelete({ id: id }, (err, res) => {
+            err ? callback(err, null) : callback(null, res);
+        })
     }
 
 }

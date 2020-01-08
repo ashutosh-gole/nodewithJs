@@ -28,6 +28,13 @@ module.exports = {
         studentBusiness.updateStudentById(id, student, (err, res) => {
             err ? response.send(err) : response.send(res)
         });
+    },
+
+    deleteStudentById: function (request, response) {
+        const { id } = request.params;
+        studentBusiness.deleteStudentById(id, (err, res) => {
+            err ? response.send(err) : response.send(res)
+        });
     }
 
 }

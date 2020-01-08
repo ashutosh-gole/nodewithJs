@@ -20,8 +20,14 @@ module.exports = {
         });
     },
 
-    updateStudentById: function (id,student, callback) {
-        studentRepository.updateStudentById(id,student, (err, res) => {
+    updateStudentById: function (id, student, callback) {
+        studentRepository.updateStudentById(id, student, (err, res) => {
+            err ? callback(err, null) : callback(null, res)
+        });
+    },
+
+    deleteStudentById: function (id, callback) {
+        studentRepository.deleteStudentById(id, (err, res) => {
             err ? callback(err, null) : callback(null, res)
         });
     }
