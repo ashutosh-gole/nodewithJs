@@ -13,6 +13,13 @@ module.exports = {
         studentBusiness.getAllStudents((err, res) => {
             err ? response.send(err) : response.send(res)
         });
+    },
+
+    getStudentById: function (request, response) {
+        const { id } = request.params;
+        studentBusiness.getStudentById(id, (err, res) => {
+            err ? response.send(err) : response.send(res)
+        });
     }
 
 }

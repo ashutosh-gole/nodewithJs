@@ -12,6 +12,12 @@ module.exports = {
         StudentSchema.find({}, (err, res) => {
             err ? callback(err, null) : callback(null, res)
         });
+    },
+
+    getStudentById: function (id, callback) {
+        StudentSchema.findOne({ id: id }, (err, res) => {
+            err ? callback(err, null) : callback(null, res);
+        })
     }
 
 }

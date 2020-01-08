@@ -12,6 +12,12 @@ module.exports = {
         studentRepository.getAllStudents((err, res) => {
             err ? callback(err, null) : callback(null, res)
         });
-    }
+    },
+
+    getStudentById: function (id, callback) {
+        studentRepository.getStudentById(id, (err, res) => {
+            err ? callback(err, null) : callback(null, res)
+        });
+    },
 
 }
