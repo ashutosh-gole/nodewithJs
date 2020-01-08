@@ -1,5 +1,10 @@
 const Mongoose = require('mongoose');
 
+// Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
+// by default, you need to set it to false.
+Mongoose.set('useFindAndModify', false);
+Mongoose.set('useCreateIndex', true);
+
 const StudentSchema = Mongoose.Schema({
     id: {
         type: Number,
