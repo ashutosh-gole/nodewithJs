@@ -20,8 +20,8 @@ module.exports = {
         })
     },
 
-    updateStudentById: function (id,student,callback) {
-        StudentSchema.findOneAndUpdate({ id: id },student, (err, res) => {
+    updateStudentById: function (id, student, callback) {
+        StudentSchema.findOneAndUpdate({ id: id }, student, { new: true }, (err, res) => {
             err ? callback(err, null) : callback(null, res);
         })
     }
