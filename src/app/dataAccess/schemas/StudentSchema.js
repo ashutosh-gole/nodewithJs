@@ -8,7 +8,22 @@ const StudentSchema = Mongoose.Schema({
     },
     name: {
         type: String
-    }
+    },
+    email: {
+        type: String,
+    },
+    class: {
+        type: String,
+    },
+    collegeName: {
+        type: String,
+    },
+    phone: {
+        type: String,
+    },
+    city: {
+        type: String,
+    },
 }, {
     timestamps: true
 });
