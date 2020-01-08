@@ -20,6 +20,14 @@ module.exports = {
         studentBusiness.getStudentById(id, (err, res) => {
             err ? response.send(err) : response.send(res)
         });
+    },
+
+    updateStudentById: function (request, response) {
+        const { id } = request.params;
+        const student = request.body;
+        studentBusiness.updateStudentById(id, student, (err, res) => {
+            err ? response.send(err) : response.send(res)
+        });
     }
 
 }

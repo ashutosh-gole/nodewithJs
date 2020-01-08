@@ -18,6 +18,12 @@ module.exports = {
         StudentSchema.findOne({ id: id }, (err, res) => {
             err ? callback(err, null) : callback(null, res);
         })
+    },
+
+    updateStudentById: function (id,student,callback) {
+        StudentSchema.findOneAndUpdate({ id: id },student, (err, res) => {
+            err ? callback(err, null) : callback(null, res);
+        })
     }
 
 }
