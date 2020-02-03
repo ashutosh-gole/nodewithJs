@@ -1,7 +1,7 @@
 module.exports = {
 
     'googleTemplate': function (user) {
-        const baseUrl = `http://localhost:5000/`;
+        const baseUrl = `http://localhost:3000/`;
 
         const html = `<!DOCTYPE html>
         <html>
