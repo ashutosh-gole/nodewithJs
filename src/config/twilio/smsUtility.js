@@ -1,3 +1,5 @@
+const async = require('async');
+
 const client = require('twilio')(
     process.env.TWILIO_ACCOUNT_SID,
     process.env.TWILIO_AUTH_TOKEN
@@ -15,17 +17,19 @@ module.exports = {
     sendSMS: function (request, response) {
         const { message, mediaUrl } = request.body;
 
-        numbersToMessage.forEach((toNumber) => {
+        async.each(numbersToMessage, (number, resp) => {
             client.messages.create({
                 from: process.env.TWILIO_PHONE_NUMBER,
-                to: toNumber,
+                to: number,
                 body: message,
                 mediaUrl: mediaUrl,
             }, (err, res) => {
-                console.log(res);
-                err ? response.send(err) : response.send(res)
+                err ? response.status(500).send({ message: err }) : null;
+                resp();
             });
-        });
+        }, (err) => {
+            err ? response.status(500).send({ message: err }) : response.status(200).send({ message: 'Succesfully Sent all messages' })
+        })
 
     }
 
