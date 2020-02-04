@@ -22,7 +22,7 @@ module.exports = {
             to: `whatsapp:${process.env.CELL_PHONE_WHATSAPP_NUMBER1}`,
             body: message,
             // mediaUrl: mediaUrl,
-            persistentAction: ["geo:37.787890,-122.391664|375 Beale St"],
+            persistentAction: ["geo:17.9307,73.6477|Mahabaleshwar"],
         }, (err, res) => {
             err ? response.status(500).send({ message: err }) : response.status(200).send({ message: 'Succesfully Sent all messages' });
             // resp();
