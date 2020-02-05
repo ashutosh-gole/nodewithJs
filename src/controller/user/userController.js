@@ -4,30 +4,46 @@ module.exports = {
 
     signup: function (request, response) {
         const user = request.body;
-        userBusiness.signup(user, (err, res) => {
-            err ? response.send(err) : response.send(res)
-        });
+        userBusiness.signup(user)
+            .then((res) => {
+                response.send(res)
+            })
+            .catch((err) => {
+                response.send(err)
+            })
     },
 
     login: function (request, response) {
         const { email, password } = request.body;
-        userBusiness.login(email, password, (err, res) => {
-            err ? response.send(err) : response.send(res)
-        });
+        userBusiness.login(email, password)
+            .then((res) => {
+                response.send(res)
+            })
+            .catch((err) => {
+                response.send(err)
+            })
     },
 
     logout: function (request, response) {
         const { token } = request.body;
-        userBusiness.logout(token, (err, res) => {
-            err ? response.send(err) : response.send(res)
-        });
+        userBusiness.logout(token)
+            .then((res) => {
+                response.send(res)
+            })
+            .catch((err) => {
+                response.send(err)
+            })
     },
 
     userVerify: function (request, response) {
         const { verficationToken } = request.params;
-        userBusiness.userVerify(verficationToken, (err, res) => {
-            err ? response.send(err) : response.send(res)
-        });
+        userBusiness.userVerify(verficationToken)
+            .then((res) => {
+                response.send(res)
+            })
+            .catch((err) => {
+                response.send(err)
+            })
     }
 
 }

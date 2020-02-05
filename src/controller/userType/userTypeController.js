@@ -4,15 +4,23 @@ module.exports = {
 
     create: function (request, response) {
         const userType = request.body;
-        userTypeBusiness.create(userType, (err, res) => {
-            err ? response.send(err) : response.send(res)
-        });
+        userTypeBusiness.create(userType)
+            .then((res) => {
+                response.send(res)
+            })
+            .catch((err) => {
+                response.send(err)
+            })
     },
 
     getAllUserTypes: function (request, response) {
-        userTypeBusiness.getAllUserTypes((err, res) => {
-            err ? response.send(err) : response.send(res)
-        });
+        userTypeBusiness.getAllUserTypes()
+            .then((res) => {
+                response.send(res)
+            })
+            .catch((err) => {
+                response.send(err)
+            })
     }
 
 }

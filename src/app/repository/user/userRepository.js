@@ -5,49 +5,88 @@ const UserSchema = require('../../dataAccess/schemas/UserSchema');
 
 module.exports = {
 
-    signup: function (user, callback) {
-        UserSchema.create(user, (err, res) => {
-            err ? callback(err, null) : callback(null, res)
-        });
-    },
-
-    verifyUserToken: function (user, callback) {
-        const verificationToken = crypto.randomBytes(16).toString('hex');
-        UserSchema.findOneAndUpdate({ _id: user._id }, { verificationToken: verificationToken }, { new: true }, (err, res) => {
-            err ? callback(err, null) : callback(null, res)
-        });
-    },
-
-    findByEmail: function (email, callback) {
-        UserSchema.findOne({ email: email }, (err, res) => {
-            err ? callback(err, null) : callback(null, res)
-        });
-    },
-
-    updateUser: function (userId, token, callback) {
-        UserSchema.findOneAndUpdate({ _id: userId }, { token: token }, { new: true }, (err, res) => {
-            err ? callback(err, null) : callback(null, res)
-        })
-    },
-
-    logout: function (token, callback) {
-        UserSchema.findOneAndUpdate({ token: token }, { $unset: { token: 1 } }, { new: true }, (err, res) => {
-            err ? callback(err, null) : callback(null, res)
-        })
-    },
-
-    userVerify: function (verificationToken, callback) {
-        UserSchema.findOne({ verificationToken: verificationToken }, (err, res) => {
-            err ? callback(err, null) : null;
-            if (res) {
-                res.verificationToken = null;
-                res.isVerified = true;
-                res.save((error) => {
-                    error ? callback(err, null) : callback(null, 'User Verfied')
+    signup: function (user) {
+        return new Promise((resolve, reject) => {
+            UserSchema.create(user)
+                .then((res) => {
+                    resolve(res);
                 })
-            } else {
-                callback(null, 'User Already Verified')
-            }
+                .catch((err) => {
+                    reject(err);
+                })
+        })
+    },
+
+    verifyUserToken: function (user) {
+        return new Promise((resolve, reject) => {
+            const verificationToken = crypto.randomBytes(16).toString('hex');
+            UserSchema.findOneAndUpdate({ _id: user._id }, { verificationToken: verificationToken }, { new: true })
+                .then((res) => {
+                    resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                })
+        })
+    },
+
+    findByEmail: function (email) {
+        return new Promise((resolve, reject) => {
+            UserSchema.findOne({ email: email })
+                .then((res) => {
+                    resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                })
+        })
+    },
+
+    updateUser: function (userId, token) {
+        return new Promise((resolve, reject) => {
+            UserSchema.findOneAndUpdate({ _id: userId }, { token: token }, { new: true })
+                .then((res) => {
+                    resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                })
+        })
+    },
+
+    logout: function (token) {
+        return new Promise((resolve, reject) => {
+            UserSchema.findOneAndUpdate({ token: token }, { $unset: { token: 1 } }, { new: true })
+                .then((res) => {
+                    resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                })
+        })
+    },
+
+    userVerify: function (verificationToken) {
+        return new Promise((resolve, reject) => {
+            UserSchema.findOne({ verificationToken: verificationToken })
+                .then((res) => {
+                    if (res) {
+                        res.verificationToken = null;
+                        res.isVerified = true;
+                        res.save()
+                            .then((ress) => {
+                                resolve(`User Verified`);
+                            })
+                            .catch((errr) => {
+                                reject(errr);
+                            })
+                    } else {
+                        reject(`User Already Verified`)
+                    }
+                })
+                .catch((err) => {
+                    reject(err);
+                })
         })
     }
 
