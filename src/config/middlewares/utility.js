@@ -10,16 +10,8 @@ const smtpTransport = nodemailer.createTransport({
 
 module.exports = {
 
-    'sendMail': function (mailOptions) {
-        return new Promise((resolve, reject) => {
-            smtpTransport.sendMail(mailOptions)
-                .then((res) => {
-                    resolve(res);
-                })
-                .catch((err) => {
-                    reject(err);
-                })
-        })
+    'sendMail': async function (mailOptions) {
+        return await smtpTransport.sendMail(mailOptions)
     }
 
 }

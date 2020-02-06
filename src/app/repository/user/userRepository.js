@@ -5,65 +5,25 @@ const UserSchema = require('../../dataAccess/schemas/UserSchema');
 
 module.exports = {
 
-    signup: function (user) {
-        return new Promise((resolve, reject) => {
-            UserSchema.create(user)
-                .then((res) => {
-                    resolve(res);
-                })
-                .catch((err) => {
-                    reject(err);
-                })
-        })
+    signup: async function (user) {
+        return await UserSchema.create(user)
     },
 
-    verifyUserToken: function (user) {
-        return new Promise((resolve, reject) => {
-            const verificationToken = crypto.randomBytes(16).toString('hex');
-            UserSchema.findOneAndUpdate({ _id: user._id }, { verificationToken: verificationToken }, { new: true })
-                .then((res) => {
-                    resolve(res);
-                })
-                .catch((err) => {
-                    reject(err);
-                })
-        })
+    verifyUserToken: async function (user) {
+        const verificationToken = crypto.randomBytes(16).toString('hex');
+        return await UserSchema.findOneAndUpdate({ _id: user._id }, { verificationToken: verificationToken }, { new: true })
     },
 
-    findByEmail: function (email) {
-        return new Promise((resolve, reject) => {
-            UserSchema.findOne({ email: email })
-                .then((res) => {
-                    resolve(res);
-                })
-                .catch((err) => {
-                    reject(err);
-                })
-        })
+    findByEmail: async function (email) {
+        return await UserSchema.findOne({ email: email })
     },
 
-    updateUser: function (userId, token) {
-        return new Promise((resolve, reject) => {
-            UserSchema.findOneAndUpdate({ _id: userId }, { token: token }, { new: true })
-                .then((res) => {
-                    resolve(res);
-                })
-                .catch((err) => {
-                    reject(err);
-                })
-        })
+    updateUser: async function (userId, token) {
+        return await UserSchema.findOneAndUpdate({ _id: userId }, { token: token }, { new: true })
     },
 
-    logout: function (token) {
-        return new Promise((resolve, reject) => {
-            UserSchema.findOneAndUpdate({ token: token }, { $unset: { token: 1 } }, { new: true })
-                .then((res) => {
-                    resolve(res);
-                })
-                .catch((err) => {
-                    reject(err);
-                })
-        })
+    logout: async function (token) {
+        return await UserSchema.findOneAndUpdate({ token: token }, { $unset: { token: 1 } }, { new: true })
     },
 
     userVerify: function (verificationToken) {
