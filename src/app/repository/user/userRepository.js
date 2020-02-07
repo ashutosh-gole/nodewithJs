@@ -26,28 +26,27 @@ module.exports = {
         return await UserSchema.findOneAndUpdate({ token: token }, { $unset: { token: 1 } }, { new: true })
     },
 
-    userVerify: function (verificationToken) {
-        return new Promise((resolve, reject) => {
-            UserSchema.findOne({ verificationToken: verificationToken })
-                .then((res) => {
-                    if (res) {
-                        res.verificationToken = null;
-                        res.isVerified = true;
-                        res.save()
-                            .then((ress) => {
-                                resolve(`User Verified`);
-                            })
-                            .catch((errr) => {
-                                reject(errr);
-                            })
-                    } else {
-                        reject(`User Already Verified`)
-                    }
-                })
-                .catch((err) => {
-                    reject(err);
-                })
-        })
+    userVerify: async function (verificationToken) {
+        try {
+            let res = await UserSchema.findOne({ verificationToken: verificationToken })
+
+            if (res) {
+                res.verificationToken = null;
+                res.isVerified = true;
+
+                let finalRes = await res.save()
+                if (finalRes != null) {
+                    return `User Verified`;
+                } else {
+                    return Promise.reject(`Error`);
+                }
+            } else {
+                return `User Already Verified`;
+            }
+
+        } catch (err) {
+            return err;
+        }
     }
 
 }
